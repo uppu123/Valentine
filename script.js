@@ -6,17 +6,18 @@ const video = document.getElementById("valentineVideo");
 
 const messages = [
     "Nice try 😜",
-    "Nope 😆",
+    "Almost 😂",
+    "Nope 😏",
     "You can’t say no 💕",
-    "Almost 😏",
     "Just click YES ❤️"
 ];
 
 let escaped = false;
 
-noBtn.addEventListener("mouseenter", () => {
+function escapeNo(e) {
+    e.preventDefault(); // 🚫 block click on mobile
+
     if (!escaped) {
-        // switch positioning only once
         const rect = noBtn.getBoundingClientRect();
         noBtn.style.position = "fixed";
         noBtn.style.left = rect.left + "px";
@@ -36,10 +37,21 @@ noBtn.addEventListener("mouseenter", () => {
 
     message.innerText =
         messages[Math.floor(Math.random() * messages.length)];
-});
+}
+
+/* Desktop */
+noBtn.addEventListener("mouseenter", escapeNo);
+
+/* Mobile */
+noBtn.addEventListener("touchstart", escapeNo);
+noBtn.addEventListener("touchmove", escapeNo);
+
+/* Block clicking NO completely */
+noBtn.addEventListener("click", (e) => e.preventDefault());
 
 yesBtn.addEventListener("click", () => {
     card.style.display = "none";
     video.style.display = "block";
     video.play();
 });
+
